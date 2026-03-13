@@ -11,10 +11,8 @@ const server = http.createServer(app);
 const io = socketIo(server);
 
 // Connect to MongoDB
-mongoose.connect('mongodb://localhost:27017/snake-ladder', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-}).then(() => {
+mongoose.connect('mongodb://localhost:27017/snake-ladder')
+.then(() => {
   console.log('Connected to MongoDB');
 }).catch(err => {
   console.error('MongoDB connection error:', err);
@@ -46,6 +44,7 @@ io.on('connection', async (socket) => {
             const game = new Game({
                 code,
                 host: player._id,
+                numPlayers: data.numPlayers,
                 players: [player._id],
                 board
             });
@@ -62,7 +61,7 @@ io.on('connection', async (socket) => {
     socket.on('joinGame', async (data) => {
         try {
             const game = await Game.findOne({ code: data.code }).populate('players');
-            if (!game || game.status !== 'waiting' || game.players.length >= 6) { // Assuming max 6 players
+            if (!game || game.status !== 'waiting' || game.players.length >= game.numPlayers) { // Assuming max 6 players
                 socket.emit('error', 'Game not found, full, or already started');
                 return;
             }

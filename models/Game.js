@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const gameSchema = new mongoose.Schema({
   code: { type: String, required: true, unique: true },
   host: { type: mongoose.Schema.Types.ObjectId, ref: 'Player' },
+  numPlayers: { type: Number, required: true, min: 2, max: 6 },
   players: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Player' }],
   teams: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Team' }],
   board: {
