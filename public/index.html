@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multiplayer Snake and Ladder</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Home Page -->
+        <div id="home">
+            <h1>Snake and Ladder Game</h1>
+            <button id="host-btn">Host Game</button>
+            <button id="join-btn">Join Game</button>
+        </div>
+
+        <!-- Host Setup -->
+        <div id="host-setup" style="display: none;">
+            <h2>Host Game</h2>
+            <input type="text" id="host-name" placeholder="Your Name" required>
+            <label for="num-players">Number of Players (2-6):</label>
+            <input type="number" id="num-players" min="2" max="6" value="2">
+            <button id="create-game">Create Game</button>
+            <button id="back-home">Back</button>
+        </div>
+
+        <!-- Join Page -->
+        <div id="join-page" style="display: none;">
+            <h2>Join Game</h2>
+            <input type="text" id="join-name" placeholder="Your Name" required>
+            <input type="text" id="game-code" placeholder="Game Code" required>
+            <button id="join-game">Join Game</button>
+            <button id="back-home2">Back</button>
+        </div>
+
+        <!-- Lobby -->
+        <div id="lobby" style="display: none;">
+            <h2>Game Lobby</h2>
+            <p>Game Code: <span id="lobby-code"></span></p>
+            <div id="player-list"></div>
+            <div id="host-controls" style="display: none;">
+                <button id="start-game">Start Game</button>
+            </div>
+            <div id="lobby-messages"></div>
+        </div>
+
+        <!-- Game Screen -->
+        <div id="game" style="display: none;">
+            <div id="board"></div>
+            <div id="controls">
+                <button id="roll-dice" disabled>Roll Dice</button>
+                <div id="dice-result"></div>
+            </div>
+            <div id="players"></div>
+            <div id="game-log"></div>
+        </div>
+
+        <!-- Winner Screen -->
+        <div id="winner" style="display: none;">
+            <h2 id="winner-message"></h2>
+            <button id="restart-game">Play Again</button>
+            <button id="back-home3">Home</button>
+        </div>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="client.js"></script>
+</body>
+</html>
