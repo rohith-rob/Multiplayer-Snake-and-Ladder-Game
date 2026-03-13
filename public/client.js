@@ -52,7 +52,7 @@ document.getElementById('start-game').addEventListener('click', () => {
 });
 
 document.getElementById('roll-dice').addEventListener('click', () => {
-    socket.emit('rollDice', { gameCode });
+    socket.emit('rollDice', { gameCode, playerId });
 });
 
 document.getElementById('restart-game').addEventListener('click', () => {

@@ -13,6 +13,13 @@ A colorful, real-time multiplayer Snake and Ladder web game built with Node.js, 
 - **Colorful UI**: Vibrant design with animations and effects
 - **Winner Celebration**: Confetti animation when someone wins
 - **Restart Option**: Play again with the same group
+- **Database Integration**: Persistent player stats and game history with MongoDB
+
+## Database Features
+
+- **Player Profiles**: Store player names, games played, and wins
+- **Game History**: Save completed games with winners and timestamps
+- **Team Support**: Future team-based gameplay structure
 
 ## How to Play
 
@@ -23,6 +30,11 @@ A colorful, real-time multiplayer Snake and Ladder web game built with Node.js, 
 5. **Win**: First to reach tile 100 wins! Celebrate with confetti.
 6. **Play Again**: Host can restart for another round with a new board.
 
+## Prerequisites
+
+- Node.js
+- MongoDB (local installation or cloud service like MongoDB Atlas)
+
 ## Installation
 
 1. Install dependencies:
@@ -30,12 +42,17 @@ A colorful, real-time multiplayer Snake and Ladder web game built with Node.js, 
    npm install
    ```
 
-2. Start the server:
+2. Start MongoDB service (if using local MongoDB):
+   ```
+   mongod
+   ```
+
+3. Start the server:
    ```
    npm start
    ```
 
-3. Open your browser and go to `http://localhost:3001`
+4. Open your browser and go to `http://localhost:3001`
 
 ## Technologies Used
 
