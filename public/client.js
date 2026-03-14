@@ -174,30 +174,37 @@ function createBoard(board) {
     const snakeStarts = new Set((board?.snakes || []).map(s => s.start));
     const ladderStarts = new Set((board?.ladders || []).map(l => l.start));
 
-    for (let i = 100; i >= 1; i--) {
-        const tile = document.createElement('div');
-        tile.className = 'tile';
-        if (i % 10 === 0) {
-            tile.style.gridColumnStart = 10;
-            tile.style.gridRowStart = 11 - Math.floor(i / 10);
-        } else {
-            tile.style.gridColumnStart = (i % 10);
-            tile.style.gridRowStart = 11 - Math.floor((i - 1) / 10) - 1;
-        }
+    // Create tiles in visual order (top-left to bottom-right)
+    for (let row = 10; row >= 1; row--) {
+        for (let col = 1; col <= 10; col++) {
+            // Calculate position based on row and column
+            let position;
+            if ((10 - row) % 2 === 0) {
+                // Visual odd rows (1,3,5...) go right to left: 100-91, 80-71, etc.
+                position = row * 10 - col + 1;
+            } else {
+                // Visual even rows (2,4,6...) go left to right: 81-90, 61-70, etc.
+                position = (row - 1) * 10 + col;
+            }
 
-        if (snakeStarts.has(i)) {
-            const snake = (board.snakes || []).find(s => s.start === i);
-            tile.classList.add('snake');
-            tile.textContent = `${i} 🐍→${snake.end}`;
-        } else if (ladderStarts.has(i)) {
-            const ladder = (board.ladders || []).find(l => l.start === i);
-            tile.classList.add('ladder');
-            tile.textContent = `${i} 🪜→${ladder.end}`;
-        } else {
-            tile.textContent = i;
-        }
+            const tile = document.createElement('div');
+            tile.className = 'tile';
+            tile.dataset.position = position; // Store position for easy lookup
 
-        boardElement.appendChild(tile);
+            if (snakeStarts.has(position)) {
+                const snake = (board.snakes || []).find(s => s.start === position);
+                tile.classList.add('snake');
+                tile.textContent = `${position} 🐍→${snake.end}`;
+            } else if (ladderStarts.has(position)) {
+                const ladder = (board.ladders || []).find(l => l.start === position);
+                tile.classList.add('ladder');
+                tile.textContent = `${position} 🪜→${ladder.end}`;
+            } else {
+                tile.textContent = position;
+            }
+
+            boardElement.appendChild(tile);
+        }
     }
 }
 
@@ -205,7 +212,7 @@ function updateBoard(players) {
     // Clear previous players
     document.querySelectorAll('.player').forEach(p => p.remove());
     players.forEach(player => {
-        const tile = document.querySelector(`.tile:nth-child(${101 - player.position})`);
+        const tile = document.querySelector(`.tile[data-position="${player.position}"]`);
         if (tile) {
             const playerDiv = document.createElement('div');
             playerDiv.className = 'player';
